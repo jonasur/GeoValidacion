@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validador QR</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background-color: #f0f2f5; }
+        .card { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; max-width: 90%; }
+        button { background: #007bff; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-size: 1.1rem; cursor: pointer; transition: background 0.3s; width: 100%; }
+        button:hover { background: #0056b3; }
+        #status { margin-top: 1rem; color: #666; font-size: 0.9rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>📍 Verificación</h2>
+        <p>Escaneo detectado correctamente.</p>
+        <button onclick="getLocation()">Confirmar mi posición</button>
+        <p id="status"></p>
+    </div>
+
+    <script>
+    function getLocation() {
+        const statusText = document.getElementById("status");
+        statusText.style.color = "#666";
+        statusText.innerText = "Obteniendo ubicación precisa...";
+
+        // 1. CAPTURAR EL TOKEN 't' DE LA URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('t');
+
+        if (!navigator.geolocation) {
+            statusText.innerText = "Tu navegador no soporta GPS.";
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                const { latitude, longitude } = pos.coords;
+                // 2. ENVIAR LAT, LON Y EL TOKEN 't' AL SERVIDOR
+                window.location.href = `/validar?lat=${latitude}&lon=${longitude}&t=${token}`;
+            },
+            (err) => {
+                statusText.style.color = "red";
+                statusText.innerText = "Error: Debes habilitar el GPS y permitir el acceso.";
+            },
+            { 
+                enableHighAccuracy: true, 
+                timeout: 10000, 
+                maximumAge: 0 
+            }
+        );
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resultado Validación</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding-top: 50px; }
+        .card { display: inline-block; padding: 20px; border-radius: 10px; border: 1px solid #ccc; }
+        .danger { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        {% if exito %}
+            <h1 class="success">✅ Asistencia Registrada</h1>
+            <p>Distancia: {{ distancia }} metros.</p>
+        {% else %}
+            <h1 class="danger">❌ Error</h1>
+            <p>{{ error }}</p>
+            {% if distancia %} <p>Distancia: {{ distancia }}m</p> {% endif %}
+        {% endif %}
+        <br>
+        <a href="/">Volver</a>
+    </div>
+</body>
+</html>

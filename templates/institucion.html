@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Asistencia - Institución</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            padding-top: 50px;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            display: inline-block;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 400px;
+        }
+        h1 { color: #1c1e21; margin-bottom: 10px; }
+        p { color: #606770; font-size: 1.1em; }
+        .qr-frame {
+            margin: 20px 0;
+            padding: 10px;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        #timer {
+            font-weight: bold;
+            color: #007bff;
+            font-size: 1.4em;
+            margin-top: 15px;
+        }
+        .footer-text {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #8a8d91;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Control de Asistencia</h1>
+        <p>Escanee el código para registrarse</p>
+        
+        <div class="qr-frame">
+            <img src="data:image/png;base64,{{ qr_code }}" width="300" alt="Código QR Dinámico">
+        </div>
+
+        <div id="timer">Actualizando en: 60s</div>
+        
+        <p class="footer-text">📍 Punto de Control Activo</p>
+    </div>
+
+    <script>
+        // Lógica para refrescar la página cada 60 segundos
+        let segundos = 60;
+        const timerElement = document.getElementById('timer');
+
+        setInterval(() => {
+            segundos--;
+            timerElement.innerText = "Actualizando en: " + segundos + "s";
+            if (segundos <= 0) {
+                location.reload(); // Recarga la página para generar un nuevo QR con nuevo token
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
