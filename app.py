@@ -61,7 +61,7 @@ def pantalla_qr():
     url_base = request.host_url.rstrip('/')
     timestamp = int(time.time() / 60)
     # Importante: el QR debe apuntar a la URL donde el usuario valida su posición
-    url_dinamica = f"{url_base}/validar?t={timestamp}"
+    url_dinamica = f"{url_base}/?t={timestamp}"
     
     img = qrcode.make(url_dinamica)
     buf = io.BytesIO()
